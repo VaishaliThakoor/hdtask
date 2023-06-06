@@ -1,0 +1,28 @@
+version: '3'
+services:
+  patient-monitoring:
+    build:
+      context: .
+      dockerfile: patientMonitoring.Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - my-network
+  alert-service:
+    build:
+      context: .
+      dockerfile: alertService.Dockerfile
+    ports:
+      - '4000:4000'
+    networks:
+      - my-network
+  front-end:
+    image: nginx:latest
+    ports:
+      - '8080:80'
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+    networks:
+      - my-network
+networks:
+  my-network:
